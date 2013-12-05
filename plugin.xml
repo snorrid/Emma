@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.kreditech.plugins.emma"
+        version="0.0.1">
+
+	<name>emma</name>
+	<author>Vyacheslav Shabelnik</author>
+
+	<description>
+		This plugin allows you to post usage information to your Emma Analytics account.
+	</description>
+
+	<license>MIT</license>
+
+	<js-module src="www/emma.js" name="emma">
+		<clobbers target="emma" />
+	</js-module>
+
+	<engines>
+		<engine name="cordova" version="&gt;=3.0.0" />
+	</engines>
+
+	<platform name="android">
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="emma" >
+				<param name="android-package" value="com.kreditech.plugins.emma"/>
+			</feature>
+		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.INTERNET" />
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+			<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+		</config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <receiver android:name="com.emma.android.eMMaReferralReceiver" android:exported="true">
+                <intent-filter>
+                    <action android:name="com.android.vending.INSTALL_REFERRER"/>
+                </intent-filter>
+            </receiver>
+        </config-file>
+		<source-file src="src/android/emma.java"
+		             target-dir="src/com/kreditech/plugins" />
+		<source-file src="src/android/eMMa.jar"
+		             target-dir="libs" />
+	</platform>
+
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="emma">
+                <param name="ios-package" value="emma"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/ios/emma.m" />
+        <source-file src="src/ios/libeMMa-Universal.a" framework="true" />
+
+        <header-file src="src/ios/eMMa.h" />
+
+        <framework src="CoreData.framework" />
+        <framework src="SystemConfiguration.framework" />
+
+        <framework src="MobileCoreServices.framework" />
+        <framework src="CFNetwork.framework" />
+        <framework src="CoreGraphics.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="Libz.dylib" />
+        <framework src="AdSupport.framework" />
+        <framework src="CoreTelephony.framework" />
+
+    </platform>
+</plugin>
