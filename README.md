@@ -15,7 +15,7 @@ simply execute as follows;
 	phonegap local plugin add https://github.com/kredito/Emma
 
 ## Usage
-The plugin creates the object `window.emma
+The plugin creates the object window.emma
 
 After onDeviceReady, call plugin so;
 
