@@ -29,6 +29,15 @@
         };
 		return cordovaRef.exec(_success, _fail, 'emma', 'startSession', [id]);
 	};
+	emma.prototype.startOrder = function(orderId, customerId, success, fail) {
+		return cordovaRef.exec(success, fail, 'emma', 'startOrder', [orderId, customerId]);
+	};
+	emma.prototype.addProduct = function(productId, name, qty, price, extras, success, fail) {
+		return cordovaRef.exec(success, fail, 'emma', 'addProduct', [productId, name, qty, price, extras]);
+	};
+	emma.prototype.trackOrder = function(success, fail) {
+		return cordovaRef.exec(success, fail, 'emma', 'trackOrder');
+	};
 
 	if (cordovaRef && cordovaRef.addConstructor) {
 		cordovaRef.addConstructor(init);
