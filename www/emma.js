@@ -1,13 +1,13 @@
 (function(){
-	var cordovaRef = window.PhoneGap || window.cordova || window.Cordova;
+    var cordovaRef = window.PhoneGap || window.cordova || window.Cordova;
 
-	function emma() { }
+    function emma() { }
 
-	// initialize emma analytics with an account ID
-	//
-	// id = the eMMa account ID
+    // initialize emma analytics with an account ID
+    //
+    // id = the eMMa account ID
     emma.prototype.status = '';
-	emma.prototype.startSession = function(id, success, fail, context) {
+    emma.prototype.startSession = function(id, success, fail, context) {
         var self = this;
         var _success = function(e){
             self.status = e;
@@ -27,35 +27,35 @@
                 fail(e);
             }
         };
-		return cordovaRef.exec(_success, _fail, 'emma', 'startSession', [id]);
-	};
-	emma.prototype.startOrder = function(orderId, customerId, success, fail) {
-		return cordovaRef.exec(success, fail, 'emma', 'startOrder', [orderId, customerId]);
-	};
-	emma.prototype.addProduct = function(productId, name, qty, price, extras, success, fail) {
-		return cordovaRef.exec(success, fail, 'emma', 'addProduct', [productId, name, qty, price, extras]);
-	};
-	emma.prototype.trackOrder = function(success, fail) {
-		return cordovaRef.exec(success, fail, 'emma', 'trackOrder');
-	};
+        return cordovaRef.exec(_success, _fail, 'emma', 'startSession', [id]);
+    };
+    emma.prototype.startOrder = function(orderId, customerId, price, success, fail) {
+        return cordovaRef.exec(success, fail, 'emma', 'startOrder', [orderId, customerId, price]);
+    };
+    emma.prototype.addProduct = function(productId, name, qty, price, extras, success, fail) {
+        return cordovaRef.exec(success, fail, 'emma', 'addProduct', [productId, name, qty, price, extras]);
+    };
+    emma.prototype.trackOrder = function(success, fail) {
+        return cordovaRef.exec(success, fail, 'emma', 'trackOrder');
+    };
 
-	if (cordovaRef && cordovaRef.addConstructor) {
-		cordovaRef.addConstructor(init);
-	}
-	else {
-		init();
-	}
+    if (cordovaRef && cordovaRef.addConstructor) {
+        cordovaRef.addConstructor(init);
+    }
+    else {
+        init();
+    }
 
-	function init () {
-		if(!window.plugins) {
-			window.plugins = {};
-		}
-		if(!window.plugins.emma) {
-			window.plugins.emma = new emma();
-		}
-	}
+    function init () {
+        if(!window.plugins) {
+            window.plugins = {};
+        }
+        if(!window.plugins.emma) {
+            window.plugins.emma = new emma();
+        }
+    }
 
-	if (typeof module != 'undefined' && module.exports) {
-		module.exports = new emma();
-	}
+    if (typeof module != 'undefined' && module.exports) {
+        module.exports = new emma();
+    }
 })(); /* End of Temporary Scope. */

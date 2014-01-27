@@ -37,52 +37,50 @@ public class emma extends CordovaPlugin {
 	        final Float totalPrice = Float.valueOf(args.getString(2));
 		    cordova.getThreadPool().execute(new Runnable() {
 			    public void run() {
-				    Looper.prepare();
-				    try {
-					    eMMa.startOrder(cordova.getActivity(),orderId,customerId,totalPrice);
-					    callbackContext.success("startOrder: orderId=" + orderId + ", customerId=" + customerId + "totalPrice=" + totalPrice);
-				    } catch (final Exception e) {
-					    callbackContext.error(e.getMessage());
-				    }
-			}});
-		    return true;
-	    }
-        else if (action.equals("addProduct")) {
-	        final String productId = args.getString(0);
-	        final String name = args.getString(1);
-	        final Float qty = Float.valueOf(args.getString(2));
-	        final Float price = Float.valueOf(args.getString(3));
-	        final JSONObject extrasRaw = args.getJSONObject(4);
-	        final Iterator<String> extrasItr = extrasRaw.keys();
-	        final Map<String, String> extras = new HashMap<String, String>();
-	        while(extrasItr.hasNext()) {
-		        extras.put(extrasItr.next(), extrasRaw.getString(name));
-	        }
-	        cordova.getThreadPool().execute(new Runnable() {
-		        public void run() {
-			        Looper.prepare();
-			        try {
-				        eMMa.addProduct(productId, name, qty, price, extras);
-				        callbackContext.success("addProduct: productId=" + productId + ", name=" + name + "qty=" + qty);
-			        } catch (final Exception e) {
-				        callbackContext.error(e.getMessage());
-			        }
-		        }
-	        });
-	        return true;
-        }
-        else if (action.equals("trackOrder")) {
-	        cordova.getThreadPool().execute(new Runnable() {
-		        public void run() {
-			        Looper.prepare();
-			        try {
-				        eMMa.trackOrder(cordova.getActivity());
-				        callbackContext.success("trackOrder: order tracked!");
-			        } catch (final Exception e) {
-				        callbackContext.error(e.getMessage());
-			        }
-		    }});
-	        return true;
+                    try {
+                        eMMa.startOrder(cordova.getActivity(), orderId, customerId, totalPrice);
+                        callbackContext.success("startOrder: orderId=" + orderId + ", customerId=" + customerId + " totalPrice=" + totalPrice);
+                    } catch (final Exception e) {
+                        callbackContext.error(e.getMessage());
+                    }
+                }
+            });
+            return true;
+        } else if (action.equals("addProduct")) {
+            final String productId = args.getString(0);
+            final String name = args.getString(1);
+            final Float qty = Float.valueOf(args.getString(2));
+            final Float price = Float.valueOf(args.getString(3));
+            final JSONObject extrasRaw = args.getJSONObject(4);
+            final Iterator<String> extrasItr = extrasRaw.keys();
+            final Map<String, String> extras = new HashMap<String, String>();
+            while (extrasItr.hasNext()) {
+                String key = extrasItr.next();
+                extras.put(key, extrasRaw.getString(key));
+            }
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        eMMa.addProduct(productId, name, qty, price, extras);
+                        callbackContext.success("addProduct: productId=" + productId + ", name=" + name + " qty=" + qty);
+                    } catch (final Exception e) {
+                        callbackContext.error(e.getMessage());
+                    }
+                }
+            });
+            return true;
+        } else if (action.equals("trackOrder")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        eMMa.trackOrder(cordova.getActivity());
+                        callbackContext.success("trackOrder: order tracked!");
+                    } catch (final Exception e) {
+                        callbackContext.error(e.getMessage());
+                    }
+                }
+            });
+            return true;
         }
         return false;
     }
