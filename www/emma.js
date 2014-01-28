@@ -36,7 +36,7 @@
         return cordovaRef.exec(success, fail, 'emma', 'addProduct', [productId, name, qty, price, extras]);
     };
     emma.prototype.trackOrder = function(success, fail) {
-        return cordovaRef.exec(success, fail, 'emma', 'trackOrder');
+        return cordovaRef.exec(success, fail, 'emma', 'trackOrder', []);
     };
 
     if (cordovaRef && cordovaRef.addConstructor) {
