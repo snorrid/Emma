@@ -6,28 +6,11 @@
     // initialize emma analytics with an account ID
     //
     // id = the eMMa account ID
-    emma.prototype.status = '';
     emma.prototype.startSession = function(id, success, fail, context) {
-        var self = this;
-        var _success = function(e){
-            self.status = e;
-            if(success && context && typeof success == 'function' && typeof context == 'object'){
-                success.call(self,e);
-            }
-            else if(success && typeof success == 'function'){
-                success(e);
-            }
-        };
-        var _fail = function(e){
-            self.status = e;
-            if(fail && context && typeof fail == 'function' && typeof context == 'object'){
-                fail.call(self,e);
-            }
-            else if(fail && typeof fail == 'function'){
-                fail(e);
-            }
-        };
-        return cordovaRef.exec(_success, _fail, 'emma', 'startSession', [id]);
+        return cordovaRef.exec(success, fail, 'emma', 'startSession', [id]);
+    };
+    emma.prototype.loginUserID = function(customerId, mail, success, fail) {
+        return cordovaRef.exec(success, fail, 'emma', 'startOrder', [customerId, mail]);
     };
     emma.prototype.startOrder = function(orderId, customerId, price, success, fail) {
         return cordovaRef.exec(success, fail, 'emma', 'startOrder', [orderId, customerId, price]);

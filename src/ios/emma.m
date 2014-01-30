@@ -25,6 +25,20 @@
 		[self error:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception description]] callbackId:callbackId];
     }
 }
+- (void) loginUserID:(CDVInvokedUrlCommand*)command
+{
+	NSString    *callbackId = command.callbackId;
+	NSString    *customerID = [command.arguments objectAtIndex:0];
+	NSString    *mail = [command.arguments objectAtIndex:1];
+	
+	@try {
+		[eMMa loginUserID:customerID forMail:mail];
+		[self success:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"eMMa loginUserID successful"] callbackId:callbackId];
+	}
+	@catch (NSException *exception) {
+		[self error:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception description]] callbackId:callbackId];
+	}
+}
 - (void) startOrder:(CDVInvokedUrlCommand*)command
 {
 	NSString    *callbackId = command.callbackId;
