@@ -29,6 +29,20 @@ public class emma extends CordovaPlugin {
             });
             return true;
         }
+        else if (action.equals("loginUserID")) {
+            final String userId = args.getString(0);
+            final String mail = args.getString(1);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        eMMa.loginUserID(cordova.getActivity(), userId, mail);
+                        callbackContext.success("loginUserID: userId=" + userId + ", mail=" + mail);
+                    } catch (final Exception e) {
+                        callbackContext.error(e.getMessage());
+                    }
+                }});
+            return true;
+        }
         else if (action.equals("startOrder")) {
             final String orderId = args.getString(0);
             final String customerId = args.getString(1);
