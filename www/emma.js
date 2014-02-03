@@ -21,6 +21,9 @@
     emma.prototype.trackOrder = function(success, fail) {
         return cordovaRef.exec(success, fail, 'emma', 'trackOrder', []);
     };
+    emma.prototype.startPushSystem = function(success, fail) {
+        return cordovaRef.exec(success, fail, 'emma', 'startPushSystem', []);
+    };
 
     if (cordovaRef && cordovaRef.addConstructor) {
         cordovaRef.addConstructor(init);

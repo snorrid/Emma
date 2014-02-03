@@ -4,6 +4,7 @@
 //
 
 #import <Cordova/CDV.h>
+#import "AppDelegate.h"
 #import "eMMa.h"
 
 @interface emma : CDVPlugin
@@ -11,6 +12,25 @@
 @end
 
 @implementation emma
+{
+	NSDictionary *launchOptions;
+}
+
+- (void)pluginInitialize
+{
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
+}
+
+-(void)didFinishLaunching:(NSNotification*)notification {
+	launchOptions = notification.userInfo;
+}
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *) deviceToken { 	[eMMa registerToken:deviceToken]; }
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+	[eMMa checkReceivedNotifications:userInfo];
+}
+
 
 - (void) startSession:(CDVInvokedUrlCommand*)command
 {
@@ -78,6 +98,18 @@
 	@try {
 		[eMMa trackOrder];
 		[self success:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"eMMa trackOrder successful"] callbackId:callbackId];
+	}
+	@catch (NSException *exception) {
+		[self error:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception description]] callbackId:callbackId];
+	}
+}
+- (void) startPushSystem:(CDVInvokedUrlCommand*)command
+{
+	NSString    *callbackId = command.callbackId;
+	
+	@try {
+		[eMMa startPushSystem:launchOptions withDelegate:[self appDelegate]];
+		[self success:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"eMMa startPushSystem successful"] callbackId:callbackId];
 	}
 	@catch (NSException *exception) {
 		[self error:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[exception description]] callbackId:callbackId];
