@@ -9,8 +9,8 @@
     emma.prototype.startSession = function(id, success, fail, context) {
         return cordovaRef.exec(success, fail, 'emma', 'startSession', [id]);
     };
-    emma.prototype.loginUserID = function(customerId, mail, success, fail) {
-        return cordovaRef.exec(success, fail, 'emma', 'loginUserID', [customerId, mail]);
+    emma.prototype.loginUserID = function(customerId, mail, extras, success, fail) {
+        return cordovaRef.exec(success, fail, 'emma', 'loginUserID', [customerId, mail, extras]);
     };
     emma.prototype.startOrder = function(orderId, customerId, price, success, fail) {
         return cordovaRef.exec(success, fail, 'emma', 'startOrder', [orderId, customerId, price]);

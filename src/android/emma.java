@@ -32,10 +32,17 @@ public class emma extends CordovaPlugin {
         else if (action.equals("loginUserID")) {
             final String userId = args.getString(0);
             final String mail = args.getString(1);
+            final JSONObject extrasRaw = args.getJSONObject(2);
+            final Iterator<String> extrasItr = extrasRaw.keys();
+            final Map<String, String> extras = new HashMap<String, String>();
+            while(extrasItr.hasNext()) {
+                String key = extrasItr.next();
+                extras.put(key, extrasRaw.getString(key));
+            }
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     try {
-                        eMMa.loginUserID(cordova.getActivity(), userId, mail);
+                        eMMa.loginUserID(cordova.getActivity(), userId, mail, extras);
                         callbackContext.success("loginUserID: userId=" + userId + ", mail=" + mail);
                     } catch (final Exception e) {
                         callbackContext.error(e.getMessage());

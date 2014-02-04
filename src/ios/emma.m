@@ -50,9 +50,10 @@
 	NSString    *callbackId = command.callbackId;
 	NSString    *customerID = [command.arguments objectAtIndex:0];
 	NSString    *mail = [command.arguments objectAtIndex:1];
+	NSDictionary *extras = [command.arguments objectAtIndex:2];
 	
 	@try {
-		[eMMa loginUserID:customerID forMail:mail];
+		[eMMa loginUserID:customerID forMail:mail andExtras:extras];
 		[self success:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"eMMa loginUserID successful"] callbackId:callbackId];
 	}
 	@catch (NSException *exception) {
