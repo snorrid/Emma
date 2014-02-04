@@ -1,16 +1,16 @@
 package com.kreditech.plugins;
 
+import android.content.Intent;
+import com.emma.android.eMMa;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Iterator;
-
-import com.emma.android.eMMa;
+import java.util.Map;
 
 public class emma extends CordovaPlugin {
     @Override
@@ -94,6 +94,21 @@ public class emma extends CordovaPlugin {
                 }});
             return true;
         }
+        else if (action.equals("startPushSystem")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        eMMa.startPushSystem(cordova.getActivity());
+                        callbackContext.success("startPushSystem: system started!");
+                    } catch (final Exception e) {
+                        callbackContext.error(e.getMessage());
+                    }
+                }});
+            return true;
+        }
         return false;
+    }
+    public void onNewIntent(Intent intent) {
+        eMMa.onNewNotification(cordova.getActivity(), intent);
     }
 }
