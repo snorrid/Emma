@@ -17,6 +17,26 @@ simply execute as follows;
 ## Usage
 The plugin creates the object window.emma
 
-After onDeviceReady, call plugin so;
+After onDeviceReady, call plugin so:
 
-	emma.startSession(key, sucessCallback, errorCallback, context)
+	emma.startSession(key, success, fail); /*where key is string*/
+
+To login user:
+
+    emma.loginUserID(customerId, mail, extras, success, fail); /*where customerId and mail is string and extras is simple js object*/
+
+To start order:
+
+    emma.startOrder(orderId, customerId, price, success, fail); /*where orderId and customerId is string and price is float or int number in string representation*/
+
+To add new product:
+
+    emma.addProduct(productId, name, qty, price, extras, success, fail); /*where customerId and mail is string and extras is simple js object*/
+
+To track order:
+
+    emma.trackOrder(success, fail); /*where success and fail are callback functions*/
+
+To init push notifications:
+
+    emma.startPushSystem(success, fail);
