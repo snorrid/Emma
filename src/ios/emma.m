@@ -6,29 +6,39 @@
 #import <Cordova/CDV.h>
 #import "AppDelegate.h"
 #import "eMMa.h"
-
-@interface emma : CDVPlugin
-
-@end
+#import "EmmaPush.h"
 
 @implementation emma
 {
 	NSDictionary *launchOptions;
 }
 
-- (void)pluginInitialize
-{
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
+-(void)pluginInitialize {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishLaunching:)
+                                                 name:UIApplicationDidFinishLaunchingNotification
+                                               object:nil];
 }
 
 -(void)didFinishLaunching:(NSNotification*)notification {
-	launchOptions = notification.userInfo;
+    launchOptions = notification.userInfo;
+    if (launchOptions == nil) {
+        //launchOptions is nil when not start because of notification or url open
+        launchOptions = [NSDictionary dictionary];
+    }
 }
 
-- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *) deviceToken { 	[eMMa registerToken:deviceToken]; }
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+	[eMMa registerToken:deviceToken];
+}
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)didReceiveRemoteNotification:(NSDictionary *)userInfo {
 	[eMMa checkReceivedNotifications:userInfo];
+}
+
+- (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+	NSString *str = [NSString stringWithFormat: @"Error: %@", error];
+    NSLog(@"%@", str);
 }
 
 

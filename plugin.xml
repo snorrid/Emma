@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.kreditech.plugins.emma"
-        version="0.1.0">
+        version="0.2.0">
 
 	<name>emma</name>
 	<author>Vyacheslav Shabelnik</author>
@@ -63,12 +63,16 @@
         <config-file target="config.xml" parent="/*">
             <feature name="emma">
                 <param name="ios-package" value="emma"/>
+                <param name="onload" value="true" />
             </feature>
         </config-file>
 
+        <source-file src="src/ios/AppDelegate+notification.m" />
         <source-file src="src/ios/emma.m" />
         <source-file src="src/ios/libeMMa-Universal.a" framework="true" />
 
+        <header-file src="src/ios/AppDelegate+notification.h" />
+        <header-file src="src/ios/EmmaPush.h" />
         <header-file src="src/ios/eMMa.h" />
 
         <framework src="CoreData.framework" />
