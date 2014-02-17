@@ -10,7 +10,6 @@
 
 @interface eMMa : NSObject
 
-
 ///---------------------------------------------------------------------------------------
 /// @name Init eMMa
 ///---------------------------------------------------------------------------------------
@@ -27,6 +26,8 @@
 +(void)trackLocation; //Track location
 
 +(void)seteMMaRootViewController:(UIViewController*)viewController; //Configures eMMa Root View Controller
+
++(void)setUseIDFA:(BOOL)use;
 
 ///---------------------------------------------------------------------------------------
 /// @name eMMa User behaviour
@@ -84,6 +85,9 @@
 //Track order
 +(void)trackOrder;
 
+//Set currency
++(void)setCurrency:(NSString*)currency;
+
 //Cancel order by id
 +(void)cancelOrder:(NSString*)orderId;
 
@@ -140,6 +144,45 @@
 +(void)checkForWebviewWithCustomCloseButton:(UIButton*)button label:(NSString*)label withDelegate:(id)delegate;
 
 +(void)closeWebview;
+
+///---------------------------------------------------------------------------------------
+/// @name eMMa AdBall
+///---------------------------------------------------------------------------------------
+
++(void)checkForAdBall:(UIWindow*)window;
+
++(void)checkForAdBall:(UIWindow*)window autoCreation:(BOOL)autoCreation label:(NSString*)label;
+
++(void)checkForAdBall:(UIWindow*)window autoCreation:(BOOL)autoCreation;
+
++(void)checkForAdBall:(UIWindow*)window label:(NSString*)label;
+
+///---------------------------------------------------------------------------------------
+/// @name eMMa Banner
+///---------------------------------------------------------------------------------------
+
++ (void)checkForBannerOnViewController:(UIViewController*)viewController autoCreation:(BOOL)autoCreation label:(NSString*)label;
+
++ (void)checkForBannerOnViewController:(UIViewController*)viewController;
+
++ (void)checkForBannerOnViewController:(UIViewController*)viewController label:(NSString*)label;
+
++ (void)checkForBannerOnViewController:(UIViewController*)viewController autoCreation:(BOOL)autoCreation;
+
+///---------------------------------------------------------------------------------------
+/// @name eMMa Strip
+///---------------------------------------------------------------------------------------
+
+
++ (void)checkForStrip;
+
++ (void)checkForStripWithAutoCreation:(BOOL)autoCreation label:(NSString*)label;
+
++ (void)checkForStripWithAutoCreation:(BOOL)autoCreation;
+
++ (void)checkForStripWithLabel:(NSString*)label;
+
+
 
 ///---------------------------------------------------------------------------------------
 /// @name eMMa Tab Bar View
@@ -210,7 +253,6 @@
 //Push registration
 +(void)checkReceivedNotifications:(NSDictionary *)options;
 
-
 ///---------------------------------------------------------------------------------------
 /// @name eMMa User Info
 ///---------------------------------------------------------------------------------------
@@ -222,6 +264,7 @@
 +(void)getUserInfoAsync:(void (^)(id))resultBlock;
 
 +(void)getUserIDAsync:(void (^)(id))resultBlock;
+
 
 
 @end

@@ -81,6 +81,7 @@
         <framework src="MobileCoreServices.framework" />
         <framework src="CFNetwork.framework" />
         <framework src="CoreGraphics.framework" />
+        <framework src="QuartzCore.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="Libz.dylib" />
         <framework src="AdSupport.framework" />
