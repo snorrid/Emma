@@ -2,13 +2,42 @@
 //  eMMa.h
 //  eMMa
 //
-//  Created by GERARD LLORENTE VIVES on 02/11/11.
-//  Copyright (c) 2011 Gerard Llorente. All rights reserved.
+//  Created by eMMaSolutions S.L. on 02/02/14.
+//  Copyright (c) 2014 eMMaSolutions S.L. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
+@interface eMMaResponse : NSObject
+@property (nonatomic,assign) int status;
+@property (nonatomic,assign) int error;
+@property (nonatomic,retain) id response;
+
+-(id)initWithDictionary:(NSDictionary*)info;
+
+@end
+
+@interface eMMaCoupon : NSObject
+
+@property (nonatomic,retain) NSString * title;
+@property (nonatomic,retain) NSString * couponDescription;
+@property (nonatomic,retain) NSString * couponCode;
+@property (nonatomic,retain) NSString * imageUrl;
+@property (nonatomic,assign) int couponId;
+@property (nonatomic,assign) int maxRedeem;
+@property (nonatomic,assign) int currentRedeems;
+@property (nonatomic,retain) NSDate * begin;
+@property (nonatomic,retain) NSDate * end;
+@property (nonatomic,retain) UIImage  * image;
+@property (nonatomic,assign) int eMMaId;
+@property (nonatomic,assign) BOOL isNew;
+
+- (id)initWithDictionary:(NSDictionary*)info eMMaId:(int)eMMaId;
+
+@end
+
 @interface eMMa : NSObject
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Init eMMa
@@ -77,6 +106,20 @@
 
 +(void)startOrder:(NSString*)orderId totalPrice:(float)totalPrice extras:(NSDictionary*)extras;
 
++(void)startOrder:(NSString*)orderId customerId:(NSString*)customerId totalPrice:(float)totalPrice currencyCode:(NSString*)currencyCode  coupon:(NSString*)coupon;
+
++(void)startOrder:(NSString*)orderId customerId:(NSString*)customerId totalPrice:(float)totalPrice  currencyCode:(NSString*)currencyCode extras:(NSDictionary*)extras;
+
++(void)startOrder:(NSString*)orderId customerId:(NSString*)customerId totalPrice:(float)totalPrice currencyCode:(NSString*)currencyCode ;
+
++(void)startOrder:(NSString*)orderId totalPrice:(float)totalPrice currencyCode:(NSString*)currencyCode;
+
++(void)startOrder:(NSString*)orderId totalPrice:(float)totalPrice  currencyCode:(NSString*)currencyCode coupon:(NSString*)coupon extras:(NSDictionary*)extras;
+
++(void)startOrder:(NSString*)orderId totalPrice:(float)totalPrice  currencyCode:(NSString*)currencyCode coupon:(NSString*)coupon;
+
++(void)startOrder:(NSString*)orderId totalPrice:(float)totalPrice  currencyCode:(NSString*)currencyCode extras:(NSDictionary*)extras;
+
 //Add products to an existent order
 +(void)addProduct:(NSString*)productId name:(NSString*)name qty:(float)qty price:(float)price extras:(NSDictionary*)extras;
 
@@ -86,7 +129,7 @@
 +(void)trackOrder;
 
 //Set currency
-+(void)setCurrency:(NSString*)currency;
++(void)setCurrencyCode:(NSString*)currencyCode;
 
 //Cancel order by id
 +(void)cancelOrder:(NSString*)orderId;
@@ -176,11 +219,30 @@
 
 + (void)checkForStrip;
 
-+ (void)checkForStripWithAutoCreation:(BOOL)autoCreation label:(NSString*)label;
-
 + (void)checkForStripWithAutoCreation:(BOOL)autoCreation;
 
 + (void)checkForStripWithLabel:(NSString*)label;
+
+///---------------------------------------------------------------------------------------
+/// @name eMMa Coupons
+///---------------------------------------------------------------------------------------
+
+
++ (void)checkForCoupons:(void (^)(eMMaResponse*))response;
+
++ (void)checkForCouponsWithAutoCreation:(BOOL)autoCreation result:(void (^)(eMMaResponse*))response;
+
++ (void)checkForCouponsWithLabel:(NSString*)label result:(void (^)(eMMaResponse*))response;
+
++ (void)getCoupon:(int)couponId result:(void (^)(eMMaResponse*))response;
+
++ (void)redeemCoupon:(int)couponId;
+
++ (void)getCouponValidRedeems:(int)couponId result: (void (^)(eMMaResponse*))response;
+
++ (void)cancelCouponRedeem:(int)couponId count:(int)count;
+
++ (void)cancelCouponRedeem:(int)couponId;
 
 
 
@@ -264,7 +326,6 @@
 +(void)getUserInfoAsync:(void (^)(id))resultBlock;
 
 +(void)getUserIDAsync:(void (^)(id))resultBlock;
-
 
 
 @end
